@@ -39,9 +39,9 @@ def keydown(e):
 def highscores():
     sortedlist = sorted(picture_objects, key=lambda h: h.rating, reverse=True)
     clear_frame()
-    for i in range(3):
+    for i in range(5):
         img = Image.open(sortedlist[i].path)
-        img.thumbnail((250, 250))
+        img.thumbnail((200, 200))
         img = ImageTk.PhotoImage(img)
         newLabel = Label(master=frm_highscores)
         newLabel.image = img
@@ -56,6 +56,7 @@ def clear_frame():
 def opendir():
     left_label.image = ''
     right_label.image = ''
+    clear_frame()
     if (currentidx):
         currentidx.pop()
         currentidx.pop()
@@ -90,18 +91,20 @@ def get_idx():
 def get_size(size):
     w = size[0]
     h = size[1]
+    ratio = h / w
+    
     if (w > 300):
         w = 300
-        ratio = size[0] / size[1]
-        h = int(300/ratio)
+        h = int(350/ratio)
+        
     return w, h
 
 def show_images(l, r):
-    baseheight = 400
+    #baseheight = 350
     
     leftimage = Image.open(picture_objects[l].path)
-    hpercent = (baseheight/float(leftimage.size[1]))
-    wsize = int((float(leftimage.size[0])*float(hpercent)))
+    #hpercent = (baseheight/float(leftimage.size[1]))
+    #wsize = int((float(leftimage.size[0])*float(hpercent)))
     w, h = get_size(leftimage.size)
     leftimage = leftimage.resize((w, h), Image.Resampling.LANCZOS)
     leftimage = ImageTk.PhotoImage(leftimage)
@@ -110,8 +113,8 @@ def show_images(l, r):
 
     
     rightimage = Image.open(picture_objects[r].path)
-    hpercent = (baseheight/float(rightimage.size[1]))
-    wsize = int((float(rightimage.size[0])*float(hpercent)))
+    #hpercent = (baseheight/float(rightimage.size[1]))
+    #wsize = int((float(rightimage.size[0])*float(hpercent)))
     w, h = get_size(rightimage.size)
     rightimage = rightimage.resize((w, h), Image.Resampling.LANCZOS)
     rightimage = ImageTk.PhotoImage(rightimage)
@@ -124,16 +127,16 @@ def show_images(l, r):
     
 
 root = Tk()
-root.geometry("700x800")
+root.geometry("700x700")
 root.resizable(width=True, height=True)
 root.title('Image Rater')
 root.bind("<KeyPress>", keydown)
 btn = Button(master=root, text='choose folder', command=opendir).pack()
 
-frm_photos = Frame(master=root, width=650, height=500, padx=5, pady=5)
+frm_photos = Frame(master=root, width=650, height=400, padx=5, pady=5)
 frm_photos.place(x=25, y=50)
 
-frm_highscores = Frame(master=root, width=650, height= 300, padx=5, pady=5)
+frm_highscores = Frame(master=root, width=650, height=275, padx=5, pady=5)
 frm_highscores.place(x=75, y=455)
 
 left_label = Label(master=frm_photos)
